@@ -1,7 +1,5 @@
 package com.github.curriculeon.jfoot;
 
-import com.github.git_leon.RandomUtils;
-
 import static com.github.curriculeon.jfoot.Direction.*;
 
 /**
@@ -12,17 +10,30 @@ import static com.github.curriculeon.jfoot.Direction.*;
  * @version 2.0
  */
 public class Wombat extends Herbivore {
+
+    int counter = 0;
     public Wombat() {
         setImage("wombat.png");
     }
 
     public void act() {
-        if (this.foundLeaf()) {
-            this.eatLeaf();
-        } else if (this.canMove()) {
-            this.move();
-        } else {
-            this.turnLeft();
+        while (counter <= 10) {
+            if (this.foundLeaf()) {
+                this.eatLeaf();
+            } else if (this.canMove()) {
+                this.move();
+            } else {
+                if (counter % 2 == 0) {
+                    this.turnLeft();
+                    this.move();
+                    this.turnLeft();
+                } else {
+                    this.turnRight();
+                    this.move();
+                    this.turnRight();
+                }
+                counter++;
+            }
         }
     }
 
@@ -35,6 +46,18 @@ public class Wombat extends Herbivore {
             this.setDirection(WEST);
         } else {
             this.setDirection(EAST);
+        }
+    }
+
+    public void turnRight() {
+        if (this.getDirection() == EAST) {
+            this.setDirection(SOUTH);
+        } else if (this.getDirection() == WEST) {
+            this.setDirection(NORTH);
+        } else if (this.getDirection() == NORTH) {
+            this.setDirection(EAST);
+        } else {
+            this.setDirection(WEST);
         }
     }
 }
